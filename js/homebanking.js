@@ -40,7 +40,9 @@ else{
 function depositarDinero() {
 var deposito = parseInt(prompt('ingrese la cantidad de dinero'));
 var saldoAnterior = saldoCuenta;
-saldoCuenta += deposito;
+saldoCuenta = sumarDinero(saldoCuenta, deposito);
+//saldoCuenta += deposito;
+
 alert("has depositado: $"+ deposito +"\n Saldo anterior: "+ saldoAnterior + "\n Saldo actual: " + saldoCuenta);
 actualizarSaldoEnPantalla();
 }
@@ -55,6 +57,11 @@ function transferirDinero() {
 
 function iniciarSesion() {
 
+}
+//suma dos parametros
+
+function sumarDinero(monto, monto1){
+    return monto + monto1;
 }
 
 //Funciones que actualizan el valor de las variables en el HTML
