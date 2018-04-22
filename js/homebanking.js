@@ -9,7 +9,7 @@ var numeroCuentaAmiga = ["1234567", "7654321"];
 var claveUsuario = 4567;
 
 //Ejecución de las funciones que actualizan los valores de las variables en el HTML
-iniciarSesion();
+// iniciarSesion();
 cargarNombreEnPantalla();
 actualizarSaldoEnPantalla();
 actualizarLimiteEnPantalla();
@@ -24,19 +24,26 @@ function cambiarLimiteDeExtraccion() {
 
 function extraerDinero() {
     var extraccion = parseInt(prompt('ingrese la cantidad de dinero'));
-    var saldoAnterior = saldoCuenta;
-    // si no es multiplo de 1000
-    if (!(extraccion % 100)) {
-        alert("Solo puede dar billetes de 100");
-    }
+    // var saldoAnterior = saldoCuenta;
 
-    // Si no hay dinero
-    if (!hayDineroEnLaCuenta(extraccion)) {
-        alert('No puede sacar mas de lo que tienes');
+    console.log(extraccion % 100);
+
+     //Seguir patron..
+    if(! hayDineroEnLaCuenta(extraccion)){
+        alert("No hay dinero");
+    }else if (extraccion == null || extraccion == "" || isNaN(extraccion)) {
+        alert("No dejes el campo vacio y no ingrese letras");
+    } else if (extraccion < 100) {
+        alert("Monto minimo 100pe");
+    }
+    else if (! esMultiplo100(extraccion)) {// Si no es multiplo ejecuta extraerDinero()
+        console.log("entre al if");
+        
+
     } else if (extraccion > limiteExtraccion) {
         alert('Elija un monto menor');
-    } else {
 
+    } else {
         restarDinero(extraccion);
         alert("has sacado: $" + extraccion + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
         actualizarSaldoEnPantalla();
@@ -44,18 +51,35 @@ function extraerDinero() {
 
 }
 
+function esMultiplo100(ext) {
+    if ((ext % 100) != 0) {
+        alert("Solo puede dar billetes de 100");
+        return false;
+    } else {
+        return true;
+    }
+}
+
 function depositarDinero() {
     var deposito = parseInt(prompt('ingrese la cantidad de dinero'));
-    saldoAnterior = saldoCuenta;
-    sumarDinero(deposito);
-    actualizarSaldoEnPantalla();
-    alert("has depositado: $" + deposito + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
+    var saldoAnterior = saldoCuenta;
+    
+    if (deposito == null || deposito == "" || isNaN(deposito)) {
+        alert("No dejes el campo vacio y no ingrese letras");
+        
+    }else{
+        sumarDinero(deposito);
+        actualizarSaldoEnPantalla();
+        alert("has depositado: $" + deposito + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
+    }
+
+    
 }
 
 function hayDineroEnLaCuenta(monto) {
-    if (monto <= saldoCuenta) {
-        return true;
-    }
+    var respuesta = monto <= saldoCuenta;
+    console.log(respuesta);
+    return respuesta;
 
 }
 
@@ -131,7 +155,7 @@ function transferirDinero() {
             actualizarSaldoEnPantalla();
             alert("has transferifo: $" + montoTransferencia + "\n Cuenta destino: " + nombreCuentaAmiga[i] + "\n Numero Cuenta: " + numeroCuentaAmiga[i]);
 
-            
+
         } else {
             alert("No es cuenta amiga");
         }
@@ -145,14 +169,19 @@ function transferirDinero() {
 
 function iniciarSesion() {
 
-var clave = prompt("Clave", "Ingrese su clave para operar");
+    var clave = prompt("Clave", "Ingrese su clave para operar");
     if (clave == null || clave == "" || clave != claveUsuario) {
+        saldoCuenta = 0;
+        actualizarSaldoEnPantalla();
+        alert("Se va a retener su dinero por hasta que no ingrese su clave");
         iniciarSesion();
-    } 
+    } else {
+        alert("Bienvenido" + nombreUsuario);
+    }
 }
 
 function esCuentaAmiga(nroCta, nroCtaAmi) {
-    
+
     return nroCtaAmi.includes(nroCta);
 }
 //suma dos parametros
@@ -163,7 +192,7 @@ function sumarDinero(monto) {
 }
 
 function restarDinero(monto) {
-    saldoAnterior = saldoCuenta;
+    // saldoAnterior = saldoCuenta;
     saldoCuenta -= monto;
 }
 //Funciones que actualizan el valor de las variables en el HTML
