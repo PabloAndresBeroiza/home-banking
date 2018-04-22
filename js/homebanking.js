@@ -6,9 +6,10 @@ var limiteExtraccion = 500;
 var nombreCuentaAmiga = ["Casu", "Diego"];
 var numeroCuentaAmiga = ["1234567", "7654321"];
 
-
+var claveUsuario = 4567;
 
 //Ejecución de las funciones que actualizan los valores de las variables en el HTML
+iniciarSesion();
 cargarNombreEnPantalla();
 actualizarSaldoEnPantalla();
 actualizarLimiteEnPantalla();
@@ -144,6 +145,10 @@ function transferirDinero() {
 
 function iniciarSesion() {
 
+var clave = prompt("Clave", "Ingrese su clave para operar");
+    if (clave == null || clave == "" || clave != claveUsuario) {
+        iniciarSesion();
+    } 
 }
 
 function esCuentaAmiga(nroCta, nroCtaAmi) {
