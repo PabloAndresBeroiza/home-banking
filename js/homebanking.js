@@ -1,6 +1,6 @@
 //Declaración de variables
 var nombreUsuario = 'Pablito';
-var saldoCuenta = 10000;
+var saldoCuenta = 380;
 var limiteExtraccion = 500;
 
 var nombreCuentaAmiga = ["Casu", "Diego"];
@@ -24,26 +24,29 @@ function cambiarLimiteDeExtraccion() {
 
 function extraerDinero() {
     var extraccion = parseInt(prompt('ingrese la cantidad de dinero'));
-    // var saldoAnterior = saldoCuenta;
+    var saldoAnterior = saldoCuenta;
 
     console.log(extraccion % 100);
 
-     //Seguir patron..
+     
     if(! hayDineroEnLaCuenta(extraccion)){
-        alert("No hay dinero");
+        alert("No hay dinero Suficiente");
+
+    }else if (extraccion > limiteExtraccion) {//Supera el limite de extraccion
+        alert('Para para...no hay tanta plata! No supere el limite de extraccion');
+
+    }else if (extraccion < 100) {
+        alert("Monto minimo para extraccion...100pe");
+
+    } else if (! esMultiplo100(extraccion)) {// Solo billetes de 100
+        console.log("entre al if");
+        alert("Solo puede dar billetes de 100");
+        
     }else if (extraccion == null || extraccion == "" || isNaN(extraccion)) {
         alert("No dejes el campo vacio y no ingrese letras");
-    } else if (extraccion < 100) {
-        alert("Monto minimo 100pe");
-    }
-    else if (! esMultiplo100(extraccion)) {// Si no es multiplo ejecuta extraerDinero()
-        console.log("entre al if");
-        
 
-    } else if (extraccion > limiteExtraccion) {
-        alert('Elija un monto menor');
-
-    } else {
+    } 
+      else {
         restarDinero(extraccion);
         alert("has sacado: $" + extraccion + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
         actualizarSaldoEnPantalla();
@@ -52,8 +55,7 @@ function extraerDinero() {
 }
 
 function esMultiplo100(ext) {
-    if ((ext % 100) != 0) {
-        alert("Solo puede dar billetes de 100");
+    if ((ext % 100) != 0) {        
         return false;
     } else {
         return true;
@@ -66,7 +68,7 @@ function depositarDinero() {
     
     if (deposito == null || deposito == "" || isNaN(deposito)) {
         alert("No dejes el campo vacio y no ingrese letras");
-        
+
     }else{
         sumarDinero(deposito);
         actualizarSaldoEnPantalla();
@@ -90,35 +92,37 @@ function pagarServicio() {
     var saldoAnterior = saldoCuenta;
 
     var textoMenu = "servicios a pagar: \n\n1 - Agua: $" + costo[0] + "\n2 - Luz: $" + costo[1] + "\n3 - Telefono: $" + costo[2] + "\n4 - Internet: $" + costo[3];
-    var textoSinDinero = "No tenes suficiente dinero...";
+    var textoSinDinero = "No hay dinero...";
 
-    var opcion = prompt(textoMenu, "Elija un numero") - 1;
-
+    var opcion = parseInt(prompt(textoMenu, "Elija un numero")) - 1;
+    console.log(opcion);
+    
     if (hayDineroEnLaCuenta(costo[opcion])) {
+        restarDinero(costo[opcion]);
         var textoConfirmacion = "Has pagado:" + servicio[opcion] + " $" + costo[opcion] + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta;
 
         switch (opcion) {
-            default: text = "Elija una opcion valida...";
-                alert(text);
+            default:
+                alert("Elija una opcion valida...");
                 break;
             case 0:
                 //Preguntar por que anda con el texto y sin no???    
-                restarDinero(costo[opcion]);
-                alert("Has pagado:" + servicio[opcion] + " $" + costo[opcion] + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
+                // restarDinero(costo[opcion]);
+                alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
             case 1:
-                restarDinero(costo[opcion]);
+                
                 alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
             case 2:
-                restarDinero(costo[opcion]);
+                // restarDinero(costo[opcion]);
                 alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
             case 3:
-                restarDinero(costo[opcion]);
+                // restarDinero(costo[opcion]);
                 alert(textoConfirmacion);
                 console.log(saldoCuenta);
                 actualizarSaldoEnPantalla();
