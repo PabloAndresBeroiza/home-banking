@@ -92,11 +92,11 @@ function pagarServicio() {
     var saldoAnterior = saldoCuenta;
 
     var textoMenu = "servicios a pagar: \n\n1 - Agua: $" + costo[0] + "\n2 - Luz: $" + costo[1] + "\n3 - Telefono: $" + costo[2] + "\n4 - Internet: $" + costo[3];
-    var textoSinDinero = "No hay dinero...";
+    var textoSinDinero = "No hay suficiente dinero...";
 
     var opcion = parseInt(prompt(textoMenu, "Elija un numero")) - 1;
     console.log(opcion);
-    
+
     if (hayDineroEnLaCuenta(costo[opcion])) {
         restarDinero(costo[opcion]);
         var textoConfirmacion = "Has pagado:" + servicio[opcion] + " $" + costo[opcion] + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta;
