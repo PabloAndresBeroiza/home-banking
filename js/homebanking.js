@@ -30,8 +30,13 @@ function extraerDinero() {
     var extraccion = parseInt(respuesta);
     var saldoAnterior = saldoCuenta;
 
-    console.log("EXTRACCION", extraccion);
-    console.log(extraccion % 100);
+    // console.log("EXTRACCION", extraccion);
+    // console.log(extraccion % 100);
+    if (!esMultiplo100(extraccion)) { // Solo billetes de 100
+        console.log("entre al if");
+        
+        return;
+    }
 
      
     if (!hayDineroEnLaCuenta(extraccion)) {
@@ -43,11 +48,7 @@ function extraerDinero() {
     } else if (extraccion < 100) {
         alert("Monto minimo para extraccion...100pe");
 
-    } else if (!esMultiplo100(extraccion)) { // Solo billetes de 100
-        console.log("entre al if");
-        alert("Solo puede dar billetes de 100");
-
-    }  else  {
+    } else {
         restarDinero(extraccion);
         alert("has sacado: $" + extraccion + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
         actualizarSaldoEnPantalla();
@@ -59,7 +60,7 @@ function extraerDinero() {
 
 function esEntradaValida(datoUsuario){
     if (datoUsuario === null) {
-        alert("No deje vacio el campo");
+        
         return false;
     }
     if (datoUsuario == "")  {
@@ -75,10 +76,14 @@ function esEntradaValida(datoUsuario){
 
 function esMultiplo100(ext) {
     if ((ext % 100) != 0) {
+        alert("Solo puede dar billetes de 100");
         return false;
     } else {
+
         return true;
     }
+    // return (ext % 100) == 0; //retorna true
+    
 }
 
 function depositarDinero() {
