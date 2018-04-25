@@ -23,30 +23,31 @@ function cambiarLimiteDeExtraccion() {
 }
 
 function extraerDinero() {
-    var extraccion = parseInt(prompt('ingrese la cantidad de dinero'));
+    var respuesta = prompt('ingrese la cantidad de dinero');
+    
+   if(! esEntradaValida(respuesta)) return;
+
+    var extraccion = parseInt(respuesta);
     var saldoAnterior = saldoCuenta;
 
+    console.log("EXTRACCION", extraccion);
     console.log(extraccion % 100);
 
      
-    if(! hayDineroEnLaCuenta(extraccion)){
+    if (!hayDineroEnLaCuenta(extraccion)) {
         alert("No hay dinero Suficiente");
 
-    }else if (extraccion > limiteExtraccion) {//Supera el limite de extraccion
+    } else if (extraccion > limiteExtraccion) { //Supera el limite de extraccion
         alert('Para para...no hay tanta plata! No supere el limite de extraccion');
 
-    }else if (extraccion < 100) {
+    } else if (extraccion < 100) {
         alert("Monto minimo para extraccion...100pe");
 
-    } else if (! esMultiplo100(extraccion)) {// Solo billetes de 100
+    } else if (!esMultiplo100(extraccion)) { // Solo billetes de 100
         console.log("entre al if");
         alert("Solo puede dar billetes de 100");
-        
-    }else if (extraccion == null || extraccion == "" || isNaN(extraccion)) {
-        alert("No dejes el campo vacio y no ingrese letras");
 
-    } 
-      else {
+    }  else  {
         restarDinero(extraccion);
         alert("has sacado: $" + extraccion + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
         actualizarSaldoEnPantalla();
@@ -54,8 +55,26 @@ function extraerDinero() {
 
 }
 
+
+
+function esEntradaValida(datoUsuario){
+    if (datoUsuario === null) {
+        alert("No deje vacio el campo");
+        return false;
+    }
+    if (datoUsuario == "")  {
+        alert("No deje vacio el campo");
+        return false; 
+    }
+    if(isNaN(datoUsuario)){
+        alert("No ingrese letras");
+        return false;
+    }
+    return true;
+}
+
 function esMultiplo100(ext) {
-    if ((ext % 100) != 0) {        
+    if ((ext % 100) != 0) {
         return false;
     } else {
         return true;
@@ -65,17 +84,17 @@ function esMultiplo100(ext) {
 function depositarDinero() {
     var deposito = parseInt(prompt('ingrese la cantidad de dinero'));
     var saldoAnterior = saldoCuenta;
-    
+
     if (deposito == null || deposito == "" || isNaN(deposito)) {
         alert("No dejes el campo vacio y no ingrese letras");
 
-    }else{
+    } else {
         sumarDinero(deposito);
         actualizarSaldoEnPantalla();
         alert("has depositado: $" + deposito + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
     }
 
-    
+
 }
 
 function hayDineroEnLaCuenta(monto) {
@@ -102,28 +121,27 @@ function pagarServicio() {
         var textoConfirmacion = "Has pagado:" + servicio[opcion] + " $" + costo[opcion] + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta;
 
         switch (opcion) {
-            default:
-                alert("Elija una opcion valida...");
-                break;
+            default: alert("Elija una opcion valida...");
+            break;
             case 0:
-                //Preguntar por que anda con el texto y sin no???    
-                // restarDinero(costo[opcion]);
-                alert(textoConfirmacion);
+                    //Preguntar por que anda con el texto y sin no???    
+                    // restarDinero(costo[opcion]);
+                    alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
             case 1:
-                
-                alert(textoConfirmacion);
+
+                    alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
             case 2:
-                // restarDinero(costo[opcion]);
-                alert(textoConfirmacion);
+                    // restarDinero(costo[opcion]);
+                    alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
             case 3:
-                // restarDinero(costo[opcion]);
-                alert(textoConfirmacion);
+                    // restarDinero(costo[opcion]);
+                    alert(textoConfirmacion);
                 console.log(saldoCuenta);
                 actualizarSaldoEnPantalla();
                 break;
