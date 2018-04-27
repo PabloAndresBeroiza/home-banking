@@ -3,8 +3,7 @@ var nombreUsuario = 'Pablito';
 var saldoCuenta = 380;
 var limiteExtraccion = 500;
 
-var nombreCuentaAmiga = ["Casu", "Diego"];
-var numeroCuentaAmiga = ["1234567", "7654321"];
+
 
 var claveUsuario = 4567;
 
@@ -33,22 +32,15 @@ function extraerDinero() {
     // console.log("EXTRACCION", extraccion);
     // console.log(extraccion % 100);
     if (!esMultiplo100(extraccion)) { // Solo billetes de 100
-        console.log("entre al if");
-        
+        // console.log("entre al if");        
+        return;
+    }     
+    if (! hayDineroEnLaCuenta(extraccion)) {
         return;
     }
-
-     
-    if (!hayDineroEnLaCuenta(extraccion)) {
-        alert("No hay dinero Suficiente");
-
-    } else if (extraccion > limiteExtraccion) { //Supera el limite de extraccion
-        alert('Para para...no hay tanta plata! No supere el limite de extraccion');
-
-    } else if (extraccion < 100) {
-        alert("Monto minimo para extraccion...100pe");
-
-    } else {
+    if (! hayLimiteExtraccion(extraccion)) { //Supera el limite de extraccion
+        return;
+    }else {
         restarDinero(extraccion);
         alert("has sacado: $" + extraccion + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
         actualizarSaldoEnPantalla();
@@ -56,11 +48,17 @@ function extraerDinero() {
 
 }
 
-
+function hayLimiteExtraccion(datoUsuario){
+    if (datoUsuario > limiteExtraccion) {
+        alert('Para para...! No supere el limite de extraccion...');
+        return false;
+    } else {
+        return true;
+    }
+}
 
 function esEntradaValida(datoUsuario){
-    if (datoUsuario === null) {
-        
+    if (datoUsuario === null) {        
         return false;
     }
     if (datoUsuario == "")  {
@@ -75,51 +73,54 @@ function esEntradaValida(datoUsuario){
 }
 
 function esMultiplo100(ext) {
-    if ((ext % 100) != 0) {
+    if (((ext % 100) != 0) || (ext < 100)) {
         alert("Solo puede dar billetes de 100");
         return false;
-    } else {
 
+    } else {
         return true;
     }
-    // return (ext % 100) == 0; //retorna true
+    // return !(ext % 100) == 0; //retorna true y con el negado false
     
 }
 
 function depositarDinero() {
-    var deposito = parseInt(prompt('ingrese la cantidad de dinero'));
+    var deposito = prompt('ingrese la cantidad de dinero');    
     var saldoAnterior = saldoCuenta;
 
-    if (deposito == null || deposito == "" || isNaN(deposito)) {
-        alert("No dejes el campo vacio y no ingrese letras");
+    if (! esEntradaValida(deposito)) {
+        return;
 
     } else {
-        sumarDinero(deposito);
+        sumarDinero( parseInt(deposito) );
         actualizarSaldoEnPantalla();
         alert("has depositado: $" + deposito + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
     }
-
-
 }
 
 function hayDineroEnLaCuenta(monto) {
     var respuesta = monto <= saldoCuenta;
-    console.log(respuesta);
-    return respuesta;
-
+    if (respuesta) {
+        return respuesta;
+    } else {
+        alert("No hay dinero Suficiente");
+        return respuesta;
+    }
+    // console.log(respuesta);    
 }
 
 function pagarServicio() {
     var servicio = ["Agua", "Luz", "Telefono", "Internet"];
     var costo = [350, 210, 425, 570];
-
     var saldoAnterior = saldoCuenta;
-
     var textoMenu = "servicios a pagar: \n\n1 - Agua: $" + costo[0] + "\n2 - Luz: $" + costo[1] + "\n3 - Telefono: $" + costo[2] + "\n4 - Internet: $" + costo[3];
     var textoSinDinero = "No hay suficiente dinero...";
 
-    var opcion = parseInt(prompt(textoMenu, "Elija un numero")) - 1;
+    var respuesta = prompt(textoMenu, "Elija un numero");
     console.log(opcion);
+    if(! esEntradaValida(respuesta)) return;
+
+    var opcion = (parseInt(respuesta) - 1);
 
     if (hayDineroEnLaCuenta(costo[opcion])) {
         restarDinero(costo[opcion]);
@@ -131,67 +132,67 @@ function pagarServicio() {
             case 0:
                     //Preguntar por que anda con el texto y sin no???    
                     // restarDinero(costo[opcion]);
-                    alert(textoConfirmacion);
+                alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
             case 1:
 
-                    alert(textoConfirmacion);
+                alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
             case 2:
                     // restarDinero(costo[opcion]);
-                    alert(textoConfirmacion);
+                alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
             case 3:
                     // restarDinero(costo[opcion]);
-                    alert(textoConfirmacion);
+                alert(textoConfirmacion);
                 console.log(saldoCuenta);
                 actualizarSaldoEnPantalla();
                 break;
         }
-    } else {
-        alert(textoSinDinero);
-    }
+    } 
+    // else {
+    //     alert(textoSinDinero);
+    // }
 
 }
 
 function transferirDinero() {
-
+    var nombreCuentaAmiga = ["Casu", "Diego"];
+    var numeroCuentaAmiga = ["1234567", "7654321"];
     var textoCuentaAmiga = "";
     var datoUsuario = "";
 
+    //texto para el menu
     for (var index = 0; index < nombreCuentaAmiga.length; index++) {
         textoCuentaAmiga += index + " - " + nombreCuentaAmiga[index] + ":" + numeroCuentaAmiga[index] + "\n";
-
     }
-    // console.log(textoCuentaAmiga);
 
-    var montoTransferencia = prompt("Transferecia", "ingrese el monto a transferir");
+        // console.log(textoCuentaAmiga);
 
+        var montoTransferencia = prompt("Transferecia", "ingrese el monto a transferir");
 
-    if (hayDineroEnLaCuenta(montoTransferencia)) {
+        if (! esEntradaValida(montoTransferencia)) {        
+            return;
+        }
+        if ( hayDineroEnLaCuenta(montoTransferencia)) {
         datoUsuario = prompt(textoCuentaAmiga, "Ingrese numero de cuenta");
-
-        if (esCuentaAmiga(datoUsuario, numeroCuentaAmiga)) {
-            restarDinero(montoTransferencia);
-            // Identifica el indice
-            var i = parseInt(numeroCuentaAmiga.indexOf(datoUsuario));
-
-            actualizarSaldoEnPantalla();
-            alert("has transferifo: $" + montoTransferencia + "\n Cuenta destino: " + nombreCuentaAmiga[i] + "\n Numero Cuenta: " + numeroCuentaAmiga[i]);
-
-
-        } else {
-            alert("No es cuenta amiga");
         }
 
-
-    } else {
-        alert("No hay dinero suficiente...");
-    }
-
+        if (esCuentaAmiga(datoUsuario, numeroCuentaAmiga)) {
+            console.log("dentro de if" +datoUsuario, numeroCuentaAmiga);
+            
+            // Identifica el indice para mostrar el NombreCuentaAmiga.
+            var i = parseInt(numeroCuentaAmiga.indexOf(datoUsuario));
+            console.log("valor de i: "+i);
+            console.log("Numero de cuentaAmiga: "+numeroCuentaAmiga+" datoDeUsuario: "+datoUsuario);
+            restarDinero(montoTransferencia);
+            actualizarSaldoEnPantalla();
+            alert("has transferifo: $" + montoTransferencia + "\n Cuenta destino: " + nombreCuentaAmiga[i] + "\n Numero Cuenta: " + numeroCuentaAmiga[i]);
+        } 
+     
 }
 
 function iniciarSesion() {
@@ -208,16 +209,24 @@ function iniciarSesion() {
 }
 
 function esCuentaAmiga(nroCta, nroCtaAmi) {
+    // console.log("dentro de la funcion", nroCta, nroCtaAmi);
+    var es = nroCtaAmi.includes(nroCta);
+    console.log(es);
 
-    return nroCtaAmi.includes(nroCta);
+    if (!es) {
+        alert("No es una cuenta amiga"+ es);
+     return false;   
+    } else {
+       return true; 
+    } 
 }
-//suma dos parametros
 
+//suma al saldoCuentta el monto que se le pasa por parametro
 function sumarDinero(monto) {
-
     saldoCuenta += monto;
 }
 
+//resta al saldoCuenta el monto que se le pasa por parametro
 function restarDinero(monto) {
     // saldoAnterior = saldoCuenta;
     saldoCuenta -= monto;
