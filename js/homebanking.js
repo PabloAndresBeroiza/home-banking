@@ -12,8 +12,11 @@ actualizarLimiteEnPantalla();
 
 //Funciones que tenes que completar
 function cambiarLimiteDeExtraccion() {
-    var nuevoLimite = parseInt(prompt("ingrese el nuevo Limite"));
-    limiteExtraccion = nuevoLimite;
+    var nuevoLimite = prompt("ingrese el nuevo Limite");
+    
+    if(! esEntradaValida(nuevoLimite)){return;} 
+    limiteExtraccion = parseInt(nuevoLimite);   
+    
     actualizarLimiteEnPantalla();
     alert("Su nuevo limite de extraccion es: " + limiteExtraccion);
 }
@@ -52,6 +55,10 @@ function hayLimiteExtraccion(datoUsuario) {
 }
 //comprueba que la entrada no sea letra y que no este vacia
 function esEntradaValida(datoUsuario) {
+    if (datoUsuario < 0){
+        alert("No ingrese numeros negativos");
+        return false;
+    }
     if (datoUsuario === null) {
         return false;
     }
@@ -180,7 +187,7 @@ function transferirDinero() {
 //Si no ingresa la contrasena correcta retiene el dinero
 function iniciarSesion() {
     var clave = prompt("Clave", "Ingrese su clave para operar");
-    if (clave == null || clave == "" || clave != claveUsuario) {
+    if ( !esEntradaValida(clave) || clave != claveUsuario) {
         saldoCuenta = 0;
         actualizarSaldoEnPantalla();
         alert("Se va a retener su dinero por hasta que no ingrese su clave");
