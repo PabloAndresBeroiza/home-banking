@@ -23,22 +23,14 @@ function cambiarLimiteDeExtraccion() {
 }
 //Funcion que extrae dinero
 function extraerDinero() {
-    var respuesta = prompt('ingrese la cantidad de dinero');
-
-    if (!esEntradaValida(respuesta)) return;
-
-    var extraccion = parseInt(respuesta);
     var saldoAnterior = saldoCuenta;
+    var respuesta = prompt('ingrese la cantidad de dinero');
+    var extraccion = parseInt(respuesta);
+
+   console.log(extraccion);
     // Solo billetes de 100
-    if (!esMultiplo100(extraccion)) {               
-        return;
-    }
-    if (!hayDineroEnLaCuenta(extraccion)) {
-        return;
-    }
-    if (!hayLimiteExtraccion(extraccion)) { //Supera el limite de extraccion
-        return;
-    } else {
+    if (esEntradaValida(respuesta) && esMultiplo100(extraccion) && hayDineroEnLaCuenta(extraccion) && hayLimiteExtraccion(extraccion)) {               
+        
         restarDinero(extraccion);
         alert("has sacado: $" + extraccion + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
         actualizarSaldoEnPantalla();
@@ -88,25 +80,16 @@ function depositarDinero() {
     var deposito = prompt('ingrese la cantidad de dinero');
     var saldoAnterior = saldoCuenta;
 
-    if (!esEntradaValida(deposito)) {
-        return;
-
-    } else {
+    if (esEntradaValida(deposito)) {       
         sumarDinero(parseInt(deposito));
         actualizarSaldoEnPantalla();
         alert("has depositado: $" + deposito + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
     }
 }
 //Devuelve falso si el monto es menor que el saldo
-function hayDineroEnLaCuenta(monto) {
-    var respuesta = monto <= saldoCuenta;
-    if (respuesta) {
-        return respuesta;
-    } else {
-        alert("No hay dinero Suficiente");
-        return respuesta;
-    }
-    // console.log(respuesta);    
+function hayDineroEnLaCuenta(monto) {    
+    // prueba con operador ternario
+    return (monto < saldoCuenta) ?  true : alert("No hay dinero Suficiente"), false; 
 }
 
 function pagarServicio() {
@@ -115,40 +98,31 @@ function pagarServicio() {
     var saldoAnterior = saldoCuenta;
     var textoMenu = "servicios a pagar: \n\n1 - Agua: $" + costo[0] + "\n2 - Luz: $" + costo[1] + "\n3 - Telefono: $" + costo[2] + "\n4 - Internet: $" + costo[3];
     var textoSinDinero = "No hay suficiente dinero...";
-
     var respuesta = prompt(textoMenu, "Elija un numero");
-    console.log(opcion);
-    if (!esEntradaValida(respuesta)) return;
+    var opcion = (parseInt(respuesta) - 1);//se resta 1 para obtener bien el indice
 
-    var opcion = (parseInt(respuesta) - 1);
-
-    if (hayDineroEnLaCuenta(costo[opcion])) {
-        restarDinero(costo[opcion]);
+    if (esEntradaValida(respuesta) && hayDineroEnLaCuenta(costo[opcion])) {
         var textoConfirmacion = "Has pagado:" + servicio[opcion] + " $" + costo[opcion] + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta;
+        
+        restarDinero(costo[opcion]);
 
         switch (opcion) {
             default: alert("Elija una opcion valida...");
                 break;
-            case 0:
-                //Preguntar por que anda con el texto y sin no???    
-                // restarDinero(costo[opcion]);
+            case 0:                
                 alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
             case 1:
-
                 alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
-            case 2:
-                // restarDinero(costo[opcion]);
+            case 2:                
                 alert(textoConfirmacion);
                 actualizarSaldoEnPantalla();
                 break;
-            case 3:
-                // restarDinero(costo[opcion]);
-                alert(textoConfirmacion);
-                console.log(saldoCuenta);
+            case 3:                
+                alert(textoConfirmacion);                
                 actualizarSaldoEnPantalla();
                 break;
         }
@@ -167,47 +141,39 @@ function transferirDinero() {
     }
     // console.log(textoCuentaAmiga);
     var montoTransferencia = prompt("Transferecia", "ingrese el monto a transferir");
+    
+    if (esEntradaValida(montoTransferencia) && hayDineroEnLaCuenta(montoTransferencia)) {
+        datoUsuario = prompt(textoCuentaAmiga, "Ingrese numero de cuenta");    
 
-    if (!esEntradaValida(montoTransferencia)) {
-        return;
+        if (esCuentaAmiga(datoUsuario, numeroCuentaAmiga)) {        
+            // Identifica el indice para mostrar el NombreCuentaAmiga En el alert()
+            var i = parseInt(numeroCuentaAmiga.indexOf(datoUsuario));        
+            
+            restarDinero(montoTransferencia);
+            actualizarSaldoEnPantalla();
+            alert("has transferifo: $" + montoTransferencia + "\n Cuenta destino: " + nombreCuentaAmiga[i] + "\n Numero Cuenta: " + numeroCuentaAmiga[i]);
+        }
     }
-    if (hayDineroEnLaCuenta(montoTransferencia)) {
-        datoUsuario = prompt(textoCuentaAmiga, "Ingrese numero de cuenta");
-    }
-
-    if (esCuentaAmiga(datoUsuario, numeroCuentaAmiga)) {        
-        // Identifica el indice para mostrar el NombreCuentaAmiga En el alert
-        var i = parseInt(numeroCuentaAmiga.indexOf(datoUsuario));        
-        
-        restarDinero(montoTransferencia);
-        actualizarSaldoEnPantalla();
-        alert("has transferifo: $" + montoTransferencia + "\n Cuenta destino: " + nombreCuentaAmiga[i] + "\n Numero Cuenta: " + numeroCuentaAmiga[i]);
-    }
-
 }
 //Si no ingresa la contrasena correcta retiene el dinero
 function iniciarSesion() {
     var clave = prompt("Clave", "Ingrese su clave para operar");
-    if ( !esEntradaValida(clave) || clave != claveUsuario) {
+
+    if (esEntradaValida(clave) || clave == claveUsuario) {
+        alert("Bienvenido" + nombreUsuario);
+    } else {
         saldoCuenta = 0;
         actualizarSaldoEnPantalla();
         alert("Se va a retener su dinero por hasta que no ingrese su clave");
-        iniciarSesion();
-    } else {
-        alert("Bienvenido" + nombreUsuario);
+        iniciarSesion();        
     }
 }
 
 //Funcion que devuelve falso si no es una cuenta amiga. De lo contrario devuelve verdadero
 function esCuentaAmiga(nroCta, nroCtaAmi) {    
-    var es = nroCtaAmi.includes(nroCta);
-    
-    if (!es) {
-        alert("No es una cuenta amiga");
-        return false;
-    } else {
-        return true;
-    }
+    var esta = nroCtaAmi.includes(nroCta);    
+
+    return (esta) ? true : alert("No es una cuenta amiga"),  false;    
 }
 
 //suma al saldoCuentta el monto que se le pasa por parametro
