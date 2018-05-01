@@ -172,7 +172,7 @@ function iniciarSesion() {
 //Funcion que devuelve falso si no es una cuenta amiga. De lo contrario devuelve verdadero
 function esCuentaAmiga(nroCta, nroCtaAmi) {    
     var esta = nroCtaAmi.includes(nroCta);    
-
+    // prueba con operador ternario
     return (esta) ? true : alert("No es una cuenta amiga"),  false;    
 }
 
