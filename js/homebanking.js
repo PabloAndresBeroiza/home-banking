@@ -10,7 +10,7 @@ var numeroCuentaAmiga = ["1234567", "7654321"];
 
 
 //Ejecución de las funciones que actualizan los valores de las variables en el HTML
-// iniciarSesion();
+iniciarSesion();
 cargarNombreEnPantalla();
 actualizarSaldoEnPantalla();
 actualizarLimiteEnPantalla();
@@ -138,20 +138,14 @@ function pagarServicio() {
 }
 
 function transferirDinero() {    
-    var textoCuentaAmiga = "";
+    var textoMenu = listaDeCuentasAmigas();
     var datoUsuario = "";
-
-    //texto para el menu
-    for (var index = 0; index < nombreCuentaAmiga.length; index++) {
-        textoCuentaAmiga += index + " - " + nombreCuentaAmiga[index] + ":" + numeroCuentaAmiga[index] + "\n";
-    }
-    // console.log(textoCuentaAmiga);
     var respuesta = prompt("Transferecia", "ingrese el monto a transferir");
     var montoTransferencia = parseInt(respuesta);
-    console.log(typeof(montoTransferencia));
+    
 
     if ( esEntradaValida(respuesta) && hayDineroEnLaCuenta(montoTransferencia)) {
-        datoUsuario = prompt(textoCuentaAmiga, "Ingrese numero de cuenta");    
+        datoUsuario = prompt(textoMenu, "Ingrese numero de cuenta");    
 
         if (esCuentaAmiga(datoUsuario, numeroCuentaAmiga)) {        
             // Identifica el indice para mostrar el NombreCuentaAmiga En el alert()
@@ -213,9 +207,34 @@ function agregarCuenta(nombre, numero){
     nombreCuentaAmiga.push(nombre);
     numeroCuentaAmiga.push(numero);
 }
+// Borra una cuenta amiga
+function borrarCuentaAmiga(){
+var textoMenu=listaDeCuentasAmigas();    
+var indiceABorrar = parseInt(prompt(textoMenu,"ingrese 0, 1, 2..."));
+    
+    // si es solo numero y acepta borrar ejecuta la funcion borrarCuenta()
+    if (esEntradaValida(indiceABorrar) && confirm("Esta Seguro....")) {
+        borrarCuenta(indiceABorrar);
+    }
+}
+
+// texto para el menu
+function listaDeCuentasAmigas(){
+    var textoMenu="";
+     //texto para el menu
+    for (var index = 0; index < nombreCuentaAmiga.length; index++) {
+        textoMenu += index + " - " + nombreCuentaAmiga[index] + ":" + numeroCuentaAmiga[index] + "\n";
+    }
+    return textoMenu;
+}
 
 
-
+// Borra la cuenta que se le pasa por indice.
+function borrarCuenta(indice){
+    nombreCuentaAmiga.slice(indice, 1);
+    numeroCuentaAmiga.splice(indice, 1);
+    console.log("borrado");
+}
 //Funciones que actualizan el valor de las variables en el HTML
 function cargarNombreEnPantalla() {
     document.getElementById("nombre").innerHTML = "Bienvenido/a " + nombreUsuario;
