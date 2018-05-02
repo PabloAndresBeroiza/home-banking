@@ -5,8 +5,8 @@ var saldoCuenta = 380;
 var limiteExtraccion = 500;
 var claveUsuario = 4567;
 //variables de la cuenta. Se que se podia hacer con objetos, pero no era el objetivo.
-var nombreCuentaAmiga = ["Casu", "Diego"];
-var numeroCuentaAmiga = ["1234567", "7654321"];
+var nombreCuentaAmiga = ["Casu", "Diego","Karen","Kevin"];
+var numeroCuentaAmiga = ["1234567", "7654321","678","10101"];
 
 
 //Ejecución de las funciones que actualizan los valores de las variables en el HTML
