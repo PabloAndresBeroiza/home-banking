@@ -160,9 +160,11 @@ function transferirDinero() {
 
 //Si no ingresa la contrasena correcta retiene el dinero
 function iniciarSesion() {
-    var clave = prompt("Clave", "Ingrese su clave para operar");
-
-    if (esEntradaValida(clave) || clave == claveUsuario) {
+    var respuesta = prompt("Clave", "Ingrese su clave para operar");
+    var clave = parseInt(respuesta);
+    // Verifica que la clave sea correcta y sea del mismo tipo
+    if (esEntradaValida(clave) && clave === claveUsuario) {
+        // console.log("clave: "+typeof(clave)+" claveUsuario: "+typeof(claveUsuario));
         alert("Bienvenido" + nombreUsuario);
     } else {
         saldoCuenta = 0;
@@ -205,7 +207,7 @@ function agregarCuentaAmiga() {
 
 function agregarCuenta(nombre, numero) {
     nombreCuentaAmiga.push(nombre);
-    numeroCuentaAmiga.push(numero);
+    numeroCuentaAmiga.push(numero.toString());
 }
 
 // Borra una cuenta amiga
