@@ -2,6 +2,7 @@
 //https://github.com/PabloAndresBeroiza/home-banking
 var nombreUsuario = 'Pablito';
 var saldoCuenta = 380;
+
 var limiteExtraccion = 500;
 var claveUsuario = 4567;
 //variables de la cuenta. Se que se podia hacer con objetos, pero no era el objetivo.
@@ -11,7 +12,7 @@ var numeroCuentaAmiga = ["1234567", "7654321", "678", "10101"];
 
 //Ejecución de las funciones que actualizan los valores de las variables en el HTML
 iniciarSesion();
-cargarNombreEnPantalla();
+//cargarNombreEnPantalla();
 actualizarSaldoEnPantalla();
 actualizarLimiteEnPantalla();
 
@@ -115,7 +116,8 @@ function pagarServicio() {
         restarDinero(costo[opcion]);
 
         switch (opcion) {
-            default: alert("Elija una opcion valida...");
+            default:
+                alert("Elija una opcion valida...");
                 break;
             case 0:
                 alert(textoConfirmacion);
@@ -161,17 +163,32 @@ function transferirDinero() {
 //Si no ingresa la contrasena correcta retiene el dinero
 function iniciarSesion() {
     var respuesta = prompt("Clave", "Ingrese su clave para operar");
-    var clave = parseInt(respuesta);
+
+
     // Verifica que la clave sea correcta y sea del mismo tipo
-    if (esEntradaValida(clave) && clave === claveUsuario) {
+    if (esEntradaValida(respuesta) && parseInt(respuesta) === claveUsuario) {
         // console.log("clave: "+typeof(clave)+" claveUsuario: "+typeof(claveUsuario));
         alert("Bienvenido" + nombreUsuario);
+        cargarNombreEnPantalla();
+
     } else {
         saldoCuenta = 0;
+        nombreUsuario = "";
         actualizarSaldoEnPantalla();
         alert("Se va a retener su dinero por hasta que no ingrese su clave");
-        iniciarSesion();
+        anularMenu();
     }
+
+
+}
+//Funcion Anula el menu para operar la cuenta
+function anularMenu() {
+    var listaMenu = document.getElementsByClassName("links");
+    var i;
+    for (i = 0; i < listaMenu.length; i++) {
+        listaMenu[i].disabled = true;
+    }
+
 }
 
 //Funcion que devuelve falso si no es una cuenta amiga. De lo contrario devuelve verdadero
