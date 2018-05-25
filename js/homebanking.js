@@ -11,7 +11,7 @@ var numeroCuentaAmiga = ["1234567", "7654321", "678", "10101"];
 
 
 //Ejecución de las funciones que actualizan los valores de las variables en el HTML
-iniciarSesion();
+// iniciarSesion();
 //cargarNombreEnPantalla();
 actualizarSaldoEnPantalla();
 actualizarLimiteEnPantalla();
@@ -27,7 +27,23 @@ function cambiarLimiteDeExtraccion() {
     }
 }
 //Funcion que extrae dinero
-function extraerDinero() {
+var btnExtraerDinero = document.getElementById("extraer-dinero");
+btnExtraerDinero.addEventListener("click", function(){
+    var saldoAnterior = saldoCuenta;
+    var respuesta = prompt('ingrese la cantidad de dinero');
+    var extraccion = parseInt(respuesta, 10);
+
+    console.log(extraccion);
+    // Solo billetes de 100
+    if (esEntradaValida(respuesta) && esMultiplo100(extraccion) && hayDineroEnLaCuenta(extraccion) && hayLimiteExtraccion(extraccion)) {
+
+        restarDinero(extraccion);
+        alert("has sacado: $" + extraccion + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
+        actualizarSaldoEnPantalla();
+    }
+})
+
+/*function extraerDinero() {
     var saldoAnterior = saldoCuenta;
     var respuesta = prompt('ingrese la cantidad de dinero');
     var extraccion = parseInt(respuesta);
@@ -41,7 +57,7 @@ function extraerDinero() {
         actualizarSaldoEnPantalla();
     }
 
-}
+}*/
 //devuelves falso si supera el limite de extraccion
 function hayLimiteExtraccion(datoUsuario) {
 
@@ -108,7 +124,7 @@ function pagarServicio() {
     var textoMenu = "servicios a pagar: \n\n1 - Agua: $" + costo[0] + "\n2 - Luz: $" + costo[1] + "\n3 - Telefono: $" + costo[2] + "\n4 - Internet: $" + costo[3];
     var textoSinDinero = "No hay suficiente dinero...";
     var respuesta = prompt(textoMenu, "Elija un numero");
-    var opcion = (parseInt(respuesta) - 1);//se resta 1 para obtener bien el indice
+    var opcion = (parseInt(respuesta, 10) - 1);//se resta 1 para obtener bien el indice
 
     if (esEntradaValida(respuesta) && hayDineroEnLaCuenta(costo[opcion])) {
         var textoConfirmacion = "Has pagado:" + servicio[opcion] + " $" + costo[opcion] + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta;
