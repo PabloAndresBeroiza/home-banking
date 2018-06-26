@@ -41,7 +41,7 @@ btnExtraerDinero.addEventListener("click", function(){
         alert("has sacado: $" + extraccion + "\n Saldo anterior: " + saldoAnterior + "\n Saldo actual: " + saldoCuenta);
         actualizarSaldoEnPantalla();
     }
-})
+});
 
 /*function extraerDinero() {
     var saldoAnterior = saldoCuenta;
@@ -77,7 +77,7 @@ function esEntradaValida(datoUsuario) {
     if (datoUsuario === null) {
         return false;
     }
-    if (datoUsuario == "") {
+    if (datoUsuario === "") {
         alert("No deje vacio el campo");
         return false;
     }
